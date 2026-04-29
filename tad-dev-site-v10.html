@@ -1,0 +1,1638 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TAD Dev — Partenaire technologique à Lomé · Transformation digitale</title>
+<meta name="description" content="TAD Dev — partenaire technologique à Lomé pour les entreprises togolaises et ouest-africaines. Développement web et mobile, DevOps, intégration IA. Trois plateformes en production." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['Inter', 'system-ui', 'sans-serif'],
+          mono: ['"JetBrains Mono"', 'monospace'],
+        },
+        colors: {
+          ink: '#0F172A',
+          primary: {
+            DEFAULT: '#0B5FFF',
+            deep: '#0A2540',
+            light: '#3B82F6',
+            soft: '#DBEAFE',
+          },
+          accent: {
+            DEFAULT: '#F59E0B',
+            light: '#FBBF24',
+            soft: '#FEF3C7',
+          },
+        }
+      }
+    }
+  }
+</script>
+
+<style>
+  /* ==================== TOKENS — TAD IT BLUE BRAND ==================== */
+  :root {
+    --ink: #0F172A;
+    --ink-soft: #1E293B;
+    --text: #334155;
+    --text-muted: #64748B;
+    --text-light: #94A3B8;
+    --bg: #FFFFFF;
+    --bg-subtle: #F8FAFC;
+    --bg-card: #FFFFFF;
+    --border: #E2E8F0;
+    --border-strong: #CBD5E1;
+
+    /* Primary blue — TAD IT signature */
+    --primary: #0B5FFF;
+    --primary-deep: #0A2540;
+    --primary-light: #3B82F6;
+    --primary-soft: #DBEAFE;
+    --primary-glow: rgba(11,95,255,0.18);
+
+    /* Accent amber — warm complement */
+    --accent: #F59E0B;
+    --accent-light: #FBBF24;
+    --accent-soft: #FEF3C7;
+  }
+
+  * { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  .mono { font-family: 'JetBrains Mono', monospace; }
+
+  /* ==================== TYPOGRAPHY ==================== */
+  .h-display { font-size: clamp(40px, 6vw, 72px); line-height: 1.05; letter-spacing: -0.025em; font-weight: 600; color: var(--ink); }
+  .h-section { font-size: clamp(32px, 4.5vw, 48px); line-height: 1.1; letter-spacing: -0.02em; font-weight: 600; color: var(--ink); }
+  .h-card { font-size: 20px; line-height: 1.3; font-weight: 600; color: var(--ink); letter-spacing: -0.01em; }
+
+  /* ==================== ANIMATIONS ==================== */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-stagger > * {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.6s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .reveal-stagger.visible > * { opacity: 1; transform: translateY(0); }
+  .reveal-stagger.visible > *:nth-child(1) { transition-delay: 0.05s; }
+  .reveal-stagger.visible > *:nth-child(2) { transition-delay: 0.1s; }
+  .reveal-stagger.visible > *:nth-child(3) { transition-delay: 0.15s; }
+  .reveal-stagger.visible > *:nth-child(4) { transition-delay: 0.2s; }
+  .reveal-stagger.visible > *:nth-child(5) { transition-delay: 0.25s; }
+  .reveal-stagger.visible > *:nth-child(6) { transition-delay: 0.3s; }
+
+  /* ==================== HERO BACKGROUND ==================== */
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 1000px 500px at 80% 0%, rgba(11, 95, 255, 0.06), transparent),
+      radial-gradient(ellipse 800px 400px at 0% 50%, rgba(245, 158, 11, 0.05), transparent);
+    pointer-events: none;
+  }
+  .grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(15, 23, 42, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(15, 23, 42, 0.04) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse 70% 50% at 50% 50%, black 30%, transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 50% at 50% 50%, black 30%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* ==================== BUTTONS ==================== */
+  .btn-primary {
+    background: var(--primary);
+    color: white;
+    padding: 12px 22px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid var(--primary);
+    box-shadow: 0 1px 2px rgba(11,95,255,0.12);
+  }
+  .btn-primary:hover {
+    background: var(--primary-deep);
+    border-color: var(--primary-deep);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px var(--primary-glow);
+  }
+
+  .btn-secondary {
+    background: white;
+    color: var(--ink);
+    padding: 12px 22px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid var(--border);
+    transition: border-color 0.2s ease, background 0.2s ease;
+  }
+  .btn-secondary:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: var(--bg-subtle);
+  }
+
+  .btn-live {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    background: var(--ink);
+    color: white;
+    border-radius: 7px;
+    font-size: 12px;
+    font-weight: 500;
+    transition: background 0.2s ease, transform 0.2s ease;
+    border: 1px solid var(--ink);
+  }
+  .btn-live:hover {
+    background: var(--primary);
+    border-color: var(--primary);
+    transform: translateY(-1px);
+  }
+
+  /* ==================== ULINK ==================== */
+  .ulink { position: relative; display: inline-block; }
+  .ulink::after {
+    content: ''; position: absolute; left: 0; bottom: -2px; width: 100%; height: 1px;
+    background: currentColor; transform: scaleX(0); transform-origin: right;
+    transition: transform 0.4s cubic-bezier(0.7, 0, 0.2, 1);
+  }
+  .ulink:hover::after { transform: scaleX(1); transform-origin: left; }
+
+  /* ==================== CARDS ==================== */
+  .card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .card:hover {
+    border-color: var(--primary-light);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px -16px var(--primary-glow);
+  }
+
+  .svc-icon {
+    width: 44px;
+    height: 44px;
+    background: var(--primary-soft);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+    margin-bottom: 20px;
+    transition: transform 0.3s ease, background 0.3s ease;
+  }
+  .card:hover .svc-icon {
+    transform: scale(1.05);
+    background: var(--primary);
+    color: white;
+  }
+
+  /* ==================== LOGO MARK ==================== */
+  .logo-mark {
+    width: 32px; height: 32px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-deep));
+    color: white;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 7px;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    box-shadow: 0 2px 8px var(--primary-glow);
+  }
+
+  /* ==================== NAVBAR ==================== */
+  #navbar {
+    transition: background 0.3s ease, border-color 0.3s ease, backdrop-filter 0.3s ease;
+    background: rgba(255, 255, 255, 0);
+    border-bottom: 1px solid transparent;
+  }
+  #navbar.scrolled {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom-color: var(--border);
+  }
+
+  /* ==================== INPUT ==================== */
+  .input-field {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 15px;
+    font-family: inherit;
+    color: var(--ink);
+    width: 100%;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .input-field:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-soft);
+  }
+  .input-field::placeholder { color: var(--text-light); }
+
+  /* ==================== SELECTION ==================== */
+  ::selection { background: var(--primary); color: white; }
+
+  /* ==================== SCROLLBAR ==================== */
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: var(--bg-subtle); }
+  ::-webkit-scrollbar-thumb { background: var(--border-strong); border: 2px solid var(--bg-subtle); border-radius: 6px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+  /* ==================== TECH BADGE ==================== */
+  .tech-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text-muted);
+    background: var(--bg-subtle);
+    transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+  }
+  .tech-badge:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: var(--primary-soft);
+  }
+
+  /* ==================== AVAILABILITY DOT ==================== */
+  @keyframes availPulse {
+    0% { box-shadow: 0 0 0 0 rgba(11, 95, 255, 0.5); }
+    70% { box-shadow: 0 0 0 8px rgba(11, 95, 255, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(11, 95, 255, 0); }
+  }
+  .pulse-dot { animation: availPulse 2s infinite; }
+
+  /* ==================== STAT CARD ==================== */
+  .stat-card {
+    padding: 28px;
+    border-right: 1px solid var(--border);
+  }
+  .stat-card:last-child { border-right: none; }
+  @media (max-width: 768px) {
+    .stat-card { border-right: none; border-bottom: 1px solid var(--border); }
+    .stat-card:last-child { border-bottom: none; }
+  }
+
+  /* ==================== TIMELINE ==================== */
+  .timeline-step {
+    position: relative;
+    padding-left: 56px;
+    padding-bottom: 40px;
+  }
+  .timeline-step::before {
+    content: '';
+    position: absolute;
+    left: 19px;
+    top: 44px;
+    bottom: -8px;
+    width: 1px;
+    background: var(--border);
+  }
+  .timeline-step:last-child::before { display: none; }
+  .timeline-num {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 40px;
+    height: 40px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--primary);
+    z-index: 2;
+  }
+  .timeline-step:hover .timeline-num {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+  }
+
+  /* ==================== PROJECT CARD ==================== */
+  .proj-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    background: white;
+    transition: border-color 0.3s ease;
+  }
+  @media (min-width: 1024px) {
+    .proj-row { grid-template-columns: 5fr 7fr; }
+    .proj-row.reverse { grid-template-columns: 7fr 5fr; }
+  }
+  .proj-row:hover {
+    border-color: var(--primary-light);
+  }
+
+  .proj-content {
+    padding: 36px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  @media (min-width: 1024px) {
+    .proj-content { padding: 48px; }
+  }
+
+  .proj-visual {
+    min-height: 320px;
+    position: relative;
+    overflow: hidden;
+    background: var(--bg-subtle);
+  }
+  @media (min-width: 1024px) {
+    .proj-visual { min-height: 520px; }
+  }
+
+  /* ==================== PROJECT VISUAL VARIANTS — BLUE BRAND ==================== */
+  .visual-hotel {
+    background:
+      radial-gradient(circle at 30% 30%, rgba(245, 158, 11, 0.18), transparent 50%),
+      radial-gradient(circle at 70% 70%, rgba(11, 95, 255, 0.15), transparent 50%),
+      linear-gradient(135deg, #0A2540 0%, #061629 100%);
+  }
+  .visual-legal {
+    background:
+      radial-gradient(circle at 70% 30%, rgba(59, 130, 246, 0.25), transparent 50%),
+      radial-gradient(circle at 30% 80%, rgba(245, 158, 11, 0.12), transparent 50%),
+      linear-gradient(135deg, #0A2540 0%, #061629 100%);
+  }
+  .visual-fiber {
+    background:
+      radial-gradient(circle at 50% 50%, rgba(11, 95, 255, 0.3), transparent 60%),
+      radial-gradient(circle at 80% 20%, rgba(245, 158, 11, 0.15), transparent 50%),
+      linear-gradient(135deg, #0A2540 0%, #061629 100%);
+  }
+
+  /* ==================== EYEBROW ==================== */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 10px;
+    background: var(--primary-soft);
+    color: var(--primary);
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+  .eyebrow-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--primary);
+  }
+
+  /* ==================== ABOUT VISUAL ==================== */
+  .about-visual {
+    position: relative;
+    aspect-ratio: 4/5;
+    border-radius: 16px;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 30% 30%, rgba(11, 95, 255, 0.1), transparent 50%),
+      radial-gradient(circle at 70% 70%, rgba(245, 158, 11, 0.06), transparent 50%),
+      linear-gradient(135deg, var(--bg-subtle) 0%, white 100%);
+    border: 1px solid var(--border);
+  }
+
+  /* ==================== VALUE LINE ==================== */
+  .value-row {
+    border-bottom: 1px solid var(--border);
+    padding: 20px 0;
+    transition: padding-left 0.3s ease;
+  }
+  .value-row:hover {
+    padding-left: 8px;
+  }
+  .value-row:last-child { border-bottom: none; }
+
+  /* ==================== AUDIENCE BADGE ==================== */
+  .audience-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text);
+    transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+  }
+  .audience-badge:hover {
+    border-color: var(--primary);
+    background: var(--primary-soft);
+    color: var(--primary);
+  }
+
+  /* ==================== MAP ==================== */
+  .map-container {
+    background: var(--bg-subtle);
+    overflow: hidden;
+    position: relative;
+  }
+  .map-container iframe {
+    display: block;
+    filter: grayscale(0.15);
+  }
+</style>
+</head>
+
+<body>
+
+<!-- ==================== NAVBAR ==================== -->
+<nav id="navbar" class="fixed top-0 left-0 right-0 z-50">
+  <div class="max-w-[1280px] mx-auto px-6 lg:px-8 flex items-center justify-between h-16">
+    <a href="#top" class="flex items-center gap-2.5">
+      <div class="logo-mark">T</div>
+      <span class="text-[15px] font-semibold tracking-tight text-ink">TAD<span class="text-primary">.</span>Dev</span>
+    </a>
+
+    <div class="hidden lg:flex items-center gap-8 text-[14px] text-gray-700">
+      <a href="#about" class="hover:text-ink transition-colors">À propos</a>
+      <a href="#services" class="hover:text-ink transition-colors">Services</a>
+      <a href="#expertise" class="hover:text-ink transition-colors">Expertise</a>
+      <a href="#travaux" class="hover:text-ink transition-colors">Projets</a>
+      <a href="#approche" class="hover:text-ink transition-colors">Process</a>
+      <a href="#contact" class="hover:text-ink transition-colors">Contact</a>
+    </div>
+
+    <a href="#contact" class="btn-primary !py-2 !px-3.5 !text-[13px]">
+      <span>Démarrer</span>
+      <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </a>
+  </div>
+</nav>
+
+<!-- ==================== HERO ==================== -->
+<section id="top" class="relative pt-32 pb-20 lg:pt-40 lg:pb-32 overflow-hidden">
+  <div class="hero-bg"></div>
+  <div class="grid-bg"></div>
+
+  <div class="max-w-[1280px] mx-auto px-6 lg:px-8 relative">
+
+    <!-- Eyebrow -->
+    <div class="reveal mb-8">
+      <div class="eyebrow">
+        <span class="eyebrow-dot pulse-dot"></span>
+        <span>Studio digital · Lomé, Togo</span>
+      </div>
+    </div>
+
+    <!-- Headline -->
+    <h1 class="h-display reveal max-w-4xl">
+      Votre partenaire technologique<br>
+      pour <span class="text-primary">une transformation digitale</span> qui tient.
+    </h1>
+
+    <!-- Subtitle -->
+    <p class="reveal text-[18px] lg:text-[20px] text-gray-600 leading-relaxed max-w-2xl mt-8">
+      Nous concevons des plateformes web et mobiles, des infrastructures cloud et des intégrations sur mesure pour les entreprises togolaises et ouest-africaines. Toutes tailles — de la startup au grand groupe. Du brief à la mise en production en moins de 8 semaines.
+    </p>
+
+    <!-- Audience badges -->
+    <div class="reveal flex flex-wrap items-center gap-2 mt-8">
+      <span class="audience-badge">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        Startups
+      </span>
+      <span class="audience-badge">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        PME
+      </span>
+      <span class="audience-badge">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        Grands groupes
+      </span>
+      <span class="audience-badge">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        Institutions
+      </span>
+    </div>
+
+    <!-- CTAs -->
+    <div class="reveal flex flex-wrap items-center gap-3 mt-10">
+      <a href="#contact" class="btn-primary">
+        <span>Démarrer un projet</span>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 11L11 3M11 3H5M11 3V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </a>
+      <a href="#travaux" class="btn-secondary">
+        <span>Voir nos projets</span>
+      </a>
+    </div>
+
+    <!-- Trust line with REAL clients -->
+    <div class="reveal mt-16 lg:mt-20">
+      <div class="text-[12px] mono uppercase tracking-[0.15em] text-gray-500 mb-6">Quelques plateformes que nous avons construites</div>
+      <div class="flex flex-wrap items-center gap-x-8 gap-y-4">
+        <a href="https://hotelschaineb.com/" target="_blank" rel="noopener" class="flex items-center gap-2.5 text-gray-700 hover:text-ink transition-colors group">
+          <div class="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center font-serif italic text-[14px] text-gray-700 group-hover:border-primary group-hover:text-primary group-hover:bg-primary-soft transition-colors">B</div>
+          <span class="text-[14px]">Chaîne B Hôtel</span>
+          <svg width="11" height="11" viewBox="0 0 12 12" fill="none" class="opacity-0 group-hover:opacity-100 transition-opacity"><path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </a>
+        <a href="https://juris-flow-dev.histech.tg/" target="_blank" rel="noopener" class="flex items-center gap-2.5 text-gray-700 hover:text-ink transition-colors group">
+          <div class="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center font-mono text-[10px] font-medium text-gray-700 group-hover:border-primary group-hover:text-primary group-hover:bg-primary-soft transition-colors">LS</div>
+          <span class="text-[14px]">LawSync</span>
+          <svg width="11" height="11" viewBox="0 0 12 12" fill="none" class="opacity-0 group-hover:opacity-100 transition-opacity"><path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </a>
+        <a href="https://fibr-konnect-web.histech.tg/" target="_blank" rel="noopener" class="flex items-center gap-2.5 text-gray-700 hover:text-ink transition-colors group">
+          <div class="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center font-mono text-[10px] font-medium text-gray-700 group-hover:border-primary group-hover:text-primary group-hover:bg-primary-soft transition-colors">FK</div>
+          <span class="text-[14px]">Fiber Konnect</span>
+          <svg width="11" height="11" viewBox="0 0 12 12" fill="none" class="opacity-0 group-hover:opacity-100 transition-opacity"><path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ==================== STATS BAR ==================== -->
+<section class="border-y border-gray-200 bg-gray-50/50">
+  <div class="max-w-[1280px] mx-auto px-6 lg:px-8">
+    <div class="grid grid-cols-2 md:grid-cols-4 reveal-stagger">
+      <div class="stat-card">
+        <div class="text-[36px] lg:text-[44px] font-semibold tracking-tight text-ink leading-none">3</div>
+        <div class="text-[13px] text-gray-600 mt-2">Plateformes en production</div>
+      </div>
+      <div class="stat-card">
+        <div class="text-[36px] lg:text-[44px] font-semibold tracking-tight text-ink leading-none">−75<span class="text-primary">%</span></div>
+        <div class="text-[13px] text-gray-600 mt-2">Temps d'opération réduit</div>
+      </div>
+      <div class="stat-card">
+        <div class="text-[36px] lg:text-[44px] font-semibold tracking-tight text-ink leading-none">&lt;8<span class="text-gray-400 text-[28px]">sem</span></div>
+        <div class="text-[13px] text-gray-600 mt-2">Du brief à la production</div>
+      </div>
+      <div class="stat-card">
+        <div class="text-[36px] lg:text-[44px] font-semibold tracking-tight text-ink leading-none">99.5<span class="text-primary">%</span></div>
+        <div class="text-[13px] text-gray-600 mt-2">Disponibilité garantie</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== À PROPOS ==================== -->
+<section id="about" class="py-24 lg:py-32">
+  <div class="max-w-[1280px] mx-auto px-6 lg:px-8">
+
+    <div class="grid lg:grid-cols-12 gap-16 items-start">
+
+      <div class="lg:col-span-5 reveal">
+        <div class="about-visual flex items-center justify-center">
+          <div class="text-center px-8">
+            <div class="text-[72px] lg:text-[96px] font-semibold leading-none tracking-tight text-ink">TAD</div>
+            <div class="text-[14px] mono uppercase tracking-[0.3em] text-primary mt-3">DEV STUDIO</div>
+            <div class="w-12 h-px bg-gray-300 mx-auto my-6"></div>
+            <div class="text-[13px] text-gray-600 leading-relaxed">
+              Lomé · Togo<br>
+              Fondé en 2024
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-px mt-6 bg-gray-200 border border-gray-200 rounded-xl overflow-hidden">
+          <div class="bg-white p-4 text-center">
+            <div class="text-[24px] font-semibold text-ink">2024</div>
+            <div class="text-[11px] mono uppercase tracking-wider text-gray-500 mt-1">Fondation</div>
+          </div>
+          <div class="bg-white p-4 text-center">
+            <div class="text-[24px] font-semibold text-ink">3</div>
+            <div class="text-[11px] mono uppercase tracking-wider text-gray-500 mt-1">Industries</div>
+          </div>
+          <div class="bg-white p-4 text-center">
+            <div class="text-[24px] font-semibold text-ink">2</div>
+            <div class="text-[11px] mono uppercase tracking-wider text-gray-500 mt-1">Langues</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lg:col-span-7 reveal">
+        <div class="text-[12px] mono uppercase tracking-[0.15em] text-primary mb-4">À propos</div>
+        <h2 class="h-section mb-8">Une équipe togolaise<br>qui parle votre langue métier.</h2>
+
+        <p class="text-[17px] text-gray-700 leading-relaxed mb-6">
+          TAD Dev est la branche digitale de TAD IT Consulting, basée à Lomé. Nous construisons les plateformes que les entreprises utilisent au quotidien : systèmes de réservation, logiciels métier, applications mobiles terrain, infrastructures cloud, intégrations avec les opérateurs locaux. Notre équipe combine ingénieurs logiciels, architectes infrastructure et consultants métier — tous basés au Togo.
+        </p>
+        <p class="text-[17px] text-gray-700 leading-relaxed mb-12">
+          Nous travaillons aussi bien avec des startups en phase de lancement qu'avec des grandes entreprises et des institutions publiques. Notre approche reste la même : comprendre votre métier avant d'écrire la première ligne de code, livrer en cycles courts pour que vous voyiez les progrès semaine après semaine, rester disponibles bien après la mise en production.
+        </p>
+
+        <div class="space-y-0 border-t border-gray-200">
+
+          <div class="value-row grid md:grid-cols-12 gap-4">
+            <div class="md:col-span-3">
+              <div class="text-[12px] mono uppercase tracking-[0.15em] text-gray-500">Mission</div>
+            </div>
+            <div class="md:col-span-9">
+              <h3 class="h-card mb-2">Améliorer la performance opérationnelle de nos clients par la technologie.</h3>
+              <p class="text-[15px] text-gray-600 leading-relaxed">Concrètement : raccourcir les délais, supprimer les saisies manuelles, automatiser ce qui peut l'être, et donner aux dirigeants la visibilité chiffrée dont ils ont besoin pour piloter. Pas la technologie pour la technologie — la technologie au service du résultat.</p>
+            </div>
+          </div>
+
+          <div class="value-row grid md:grid-cols-12 gap-4">
+            <div class="md:col-span-3">
+              <div class="text-[12px] mono uppercase tracking-[0.15em] text-gray-500">Vision</div>
+            </div>
+            <div class="md:col-span-9">
+              <h3 class="h-card mb-2">Construire des solutions durables qui créent un vrai impact business.</h3>
+              <p class="text-[15px] text-gray-600 leading-relaxed">Nos clients ne cherchent pas un site web de plus. Ils cherchent un partenaire qui les accompagne sur 5, 10, 15 ans. Nous concevons donc nos plateformes pour évoluer, se maintenir, et servir le métier longtemps après la livraison.</p>
+            </div>
+          </div>
+
+          <div class="value-row grid md:grid-cols-12 gap-4">
+            <div class="md:col-span-3">
+              <div class="text-[12px] mono uppercase tracking-[0.15em] text-gray-500">Valeurs</div>
+            </div>
+            <div class="md:col-span-9">
+              <h3 class="h-card mb-2">Expertise, fiabilité, engagement, qualité.</h3>
+              <p class="text-[15px] text-gray-600 leading-relaxed">Quatre mots qui se traduisent en pratique : du code testé et documenté, des délais respectés, un interlocuteur unique tout au long du projet, et un support qui répond — y compris après la livraison. Nous ne signons pas les missions que nous ne sommes pas certains de bien livrer.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SERVICES ==================== -->
+<section id="services" class="py-24 lg:py-32 bg-gray-50/50 border-y border-gray-200">
+  <div class="max-w-[1280px] mx-auto px-6 lg:px-8">
+
+    <div class="grid lg:grid-cols-12 gap-8 mb-16 reveal">
+      <div class="lg:col-span-7">
+        <div class="text-[12px] mono uppercase tracking-[0.15em] text-primary mb-4">Services</div>
+        <h2 class="h-section">Six expertises,<br>une seule équipe.</h2>
+      </div>
+      <p class="lg:col-span-5 self-end text-[15px] text-gray-600 leading-relaxed">
+        Pas de sous-traitance, pas d'intermédiaire. Vous parlez aux mêmes personnes du premier brief jusqu'à la mise en production, et au-delà.
+      </p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 reveal-stagger">
+
+      <div class="card group">
+        <div class="svc-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <rect x="3" y="4" width="18" height="14" rx="2"/>
+            <line x1="3" y1="9" x2="21" y2="9"/>
+            <circle cx="6" cy="6.5" r="0.5" fill="currentColor"/>
+            <circle cx="8" cy="6.5" r="0.5" fill="currentColor"/>
+          </svg>
+        </div>
+        <div class="text-[11px] mono uppercase tracking-[0.15em] text-gray-500 mb-2">Service 01</div>
+        <h3 class="h-card mb-3">Développement web</h3>
+        <p class="text-[14px] text-gray-600 leading-relaxed mb-5">
+          Sites institutionnels, plateformes métier, espaces clients, e-commerce. Conçus pour être rapides, accessibles et faciles à maintenir par votre équipe ou la nôtre.
+        </p>
+        <div class="flex flex-wrap gap-1.5">
+          <span class="tech-badge">Next.js</span>
+          <span class="tech-badge">React</span>
+          <span class="tech-badge">TypeScript</span>
+        </div>
+      </div>
+
+      <div class="card group">
+        <div class="svc-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <rect x="6" y="2" width="12" height="20" rx="2"/>
+            <line x1="10" y1="18" x2="14" y2="18"/>
+          </svg>
+        </div>
+        <div class="text-[11px] mono uppercase tracking-[0.15em] text-gray-500 mb-2">Service 02</div>
+        <h3 class="h-card mb-3">Applications mobiles</h3>
+        <p class="text-[14px] text-gray-600 leading-relaxed mb-5">
+          Applications iOS et Android pour vos équipes terrain ou vos clients. Mode hors-ligne, géolocalisation, paiement Mobile Money, signature électronique — adaptées aux conditions réelles d'usage.
+        </p>
+        <div class="flex flex-wrap gap-1.5">
+          <span class="tech-badge">Flutter</span>
+          <span class="tech-badge">React Native</span>
+          <span class="tech-badge">Offline-first</span>
+        </div>
+      </div>
+
+      <div class="card group">
+        <div class="svc-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <ellipse cx="12" cy="5" rx="9" ry="3"/>
+            <path d="M3 5v6c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/>
+            <path d="M3 11v6c0 1.66 4.03 3 9 3s9-1.34 9-3v-6"/>
+          </svg>
+        </div>
+        <div class="text-[11px] mono uppercase tracking-[0.15em] text-gray-500 mb-2">Service 03</div>
+        <h3 class="h-card mb-3">Backend & API</h3>
+        <p class="text-[14px] text-gray-600 leading-relaxed mb-5">
+          Le moteur invisible derrière chaque plateforme : APIs robustes, bases de données bien structurées, intégrations avec vos systèmes existants. Conçus pour évoluer sans devoir tout refaire.
+        </p>
+        <div class="flex flex-wrap gap-1.5">
+          <span class="tech-badge">Node.js</span>
+          <span class="tech-badge">Python</span>
+          <span class="tech-badge">PostgreSQL</span>
+        </div>
+      </div>
+
+      <div class="card group">
+        <div class="svc-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M12 1v6m0 10v6M4.22 4.22l4.24 4.24m7.08 7.08l4.24 4.24M1 12h6m10 0h6M4.22 19.78l4.24-4.24m7.08-7.08l4.24-4.24"/>
+          </svg>
+        </div>
+        <div class="text-[11px] mono uppercase tracking-[0.15em] text-gray-500 mb-2">Service 04</div>
+        <h3 class="h-card mb-3">DevOps & infrastructure</h3>
+        <p class="text-[14px] text-gray-600 leading-relaxed mb-5">
+          Hébergement cloud sécurisé, déploiements automatisés, supervision 24/7, sauvegardes quotidiennes. Vos applications restent disponibles même quand vous dormez.
+        </p>
+        <div class="flex flex-wrap gap-1.5">
+          <span class="tech-badge">Kubernetes</span>
+          <span class="tech-badge">Docker</span>
+          <span class="tech-badge">Grafana</span>
+        </div>
+      </div>
+
+      <div class="card group">
+        <div class="svc-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        <div class="text-[11px] mono uppercase tracking-[0.15em] text-gray-500 mb-2">Service 05</div>
+        <h3 class="h-card mb-3">Intégration IA</h3>
+        <p class="text-[14px] text-gray-600 leading-relaxed mb-5">
+          L'IA au service de problèmes concrets : extraction automatique de données depuis vos documents, assistants pour vos équipes, classification, prévisions. Toujours mesurable, jamais gadget.
+        </p>
+        <div class="flex flex-wrap gap-1.5">
+          <span class="tech-badge">Claude API</span>
+          <span class="tech-badge">RAG</span>
+          <span class="tech-badge">Vector DB</span>
+        </div>
+      </div>
+
+      <div class="card group">
+        <div class="svc-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+            <line x1="12" y1="22.08" x2="12" y2="12"/>
+          </svg>
+        </div>
+        <div class="text-[11px] mono uppercase tracking-[0.15em] text-gray-500 mb-2">Service 06</div>
+        <h3 class="h-card mb-3">Digitalisation métier</h3>
+        <p class="text-[14px] text-gray-600 leading-relaxed mb-5">
+          Diagnostic de vos processus actuels, identification des gains rapides, refonte progressive des outils papier vers des solutions digitales. Avec formation et accompagnement de vos équipes.
+        </p>
+        <div class="flex flex-wrap gap-1.5">
+          <span class="tech-badge">Audit</span>
+          <span class="tech-badge">Workflow</span>
+          <span class="tech-badge">Formation</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==================== EXPERTISE TECH ==================== -->
+<section id="expertise" class="py-24 lg:py-32">
+  <div class="max-w-[1280px] mx-auto px-6 lg:px-8">
+
+    <div class="grid lg:grid-cols-12 gap-8 mb-16 reveal">
+      <div class="lg:col-span-7">
+        <div class="text-[12px] mono uppercase tracking-[0.15em] text-primary mb-4">Expertise tech</div>
+        <h2 class="h-section">Les technologies<br>que nous utilisons au quotidien.</h2>
+      </div>
+      <p class="lg:col-span-5 self-end text-[15px] text-gray-600 leading-relaxed">
+        Nous avons fait le choix de technologies matures, largement adoptées dans l'industrie et bien documentées. Cela garantit que vos applications resteront maintenables sur le long terme, par nous ou par n'importe quel autre prestataire.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-px bg-gray-200 border border-gray-200 rounded-xl overflow-hidden reveal-stagger">
+
+      <div class="bg-white p-5 flex flex-col items-center justify-center text-center hover:bg-primary-soft transition-colors cursor-pointer group">
+        <div class="w-10 h-10 mb-3 text-ink group-hover:text-primary transition-colors">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M5.5 21V8.5h2.5L13 14V8.5h2.5V21H13l-5-5.5V21H5.5z"/>
+          </svg>
+        </div>
+        <div class="text-[13px] font-semibold text-ink">Next.js</div>
+        <div class="text-[10px] mono uppercase tracking-wider text-gray-500 mt-0.5">Framework</div>
+      </div>
+
+      <div class="bg-white p-5 flex flex-col items-center justify-center text-center hover:bg-primary-soft transition-colors cursor-pointer group">
+        <div class="w-10 h-10 mb-3 text-ink group-hover:text-primary transition-colors">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="12" r="2"/>
+            <ellipse cx="12" cy="12" rx="10" ry="4"/>
+            <ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/>
+            <ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/>
+          </svg>
+        </div>
+        <div class="text-[13px] font-semibold text-ink">React</div>
+        <div class="text-[10px] mono uppercase tracking-wider text-gray-500 mt-0.5">UI Library</div>
+      </div>
+
+      <div class="bg-white p-5 flex flex-col items-center justify-center text-center hover:bg-primary-soft transition-colors cursor-pointer group">
+        <div class="w-10 h-10 mb-3 text-ink group-hover:text-primary transition-colors">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M3 9.5L12 4l9 5.5L12 15 3 9.5z"/>
+            <path d="M3 14.5L12 20l9-5.5"/>
+          </svg>
+        </div>
+        <div class="text-[13px] font-semibold text-ink">Flutter</div>
+        <div class="text-[10px] mono uppercase tracking-wider text-gray-500 mt-0.5">Mobile</div>
+      </div>
+
+      <div class="bg-white p-5 flex flex-col items-center justify-center text-center hover:bg-primary-soft transition-colors cursor-pointer group">
+        <div class="w-10 h-10 mb-3 text-ink group-hover:text-primary transition-colors">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <polyline points="16 18 22 12 16 6"/>
+            <polyline points="8 6 2 12 8 18"/>
+          </svg>
+        </div>
+        <div class="text-[13px] font-semibold text-ink">TypeScript</div>
+        <div class="text-[10px] mono uppercase tracking-wider text-gray-500 mt-0.5">Language</div>
+      </div>
+
+      <div class="bg-white p-5 flex flex-col items-center justify-center text-center hover:bg-primary-soft transition-colors cursor-pointer group">
+        <div class="w-10 h-10 mb-3 text-ink group-hover:text-primary transition-colors">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+          </svg>
+        </div>
+        <div class="text-[13px] font-semibold text-ink">Node.js</div>
+        <div class="text-[10px] mono uppercase tracking-wider text-gray-500 mt-0.5">Runtime</div>
+      </div>
+
+      <div class="bg-white p-5 flex flex-col items-center justify-center text-center hover:bg-primary-soft transition-colors cursor-pointer group">
+        <div class="w-10 h-10 mb-3 text-ink group-hover:text-primary transition-colors">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <ellipse cx="12" cy="5" rx="9" ry="3"/>
+            <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/>
+            <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
+          </svg>
+        </div>
+        <div class="text-[13px] font-semibold text-ink">PostgreSQL</div>
+        <div class="text-[10px] mono uppercase tracking-wider text-gray-500 mt-0.5">Database</div>
+      </div>
+
+      <div class="bg-white p-5 flex flex-col items-center justify-center text-center hover:bg-primary-soft transition-colors cursor-pointer group">
+        <div class="w-10 h-10 mb-3 text-ink group-hover:text-primary transition-colors">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/>
+            <line x1="12" y1="22" x2="12" y2="15.5"/>
+            <polyline points="22 8.5 12 15.5 2 8.5"/>
+          </svg>
+        </div>
+        <div class="text-[13px] font-semibold text-ink">Kubernetes</div>
+        <div class="text-[10px] mono uppercase tracking-wider text-gray-500 mt-0.5">Orchestration</div>
+      </div>
+
+      <div class="bg-white p-5 flex flex-col items-center justify-center text-center hover:bg-primary-soft transition-colors cursor-pointer group">
+        <div class="w-10 h-10 mb-3 text-ink group-hover:text-primary transition-colors">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+        </div>
+        <div class="text-[13px] font-semibold text-ink">Docker</div>
+        <div class="text-[10px] mono uppercase tracking-wider text-gray-500 mt-0.5">Container</div>
+      </div>
+
+      <div class="bg-white p-5 flex flex-col items-center justify-center text-center hover:bg-primary-soft transition-colors cursor-pointer group">
+        <div class="w-10 h-10 mb-3 text-ink group-hover:text-primary transition-colors">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="12" r="10"/>
+            <polygon points="10 8 16 12 10 16 10 8"/>
+          </svg>
+        </div>
+        <div class="text-[13px] font-semibold text-ink">Redis</div>
+        <div class="text-[10px] mono uppercase tracking-wider text-gray-500 mt-0.5">Cache</div>
+      </div>
+
+      <div class="bg-white p-5 flex flex-col items-center justify-center text-center hover:bg-primary-soft transition-colors cursor-pointer group">
+        <div class="w-10 h-10 mb-3 text-ink group-hover:text-primary transition-colors">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M12 2v6.5l-3 1.5v4l3 1.5V22"/>
+            <path d="M12 2v6.5l3 1.5v4l-3 1.5V22"/>
+          </svg>
+        </div>
+        <div class="text-[13px] font-semibold text-ink">Kafka</div>
+        <div class="text-[10px] mono uppercase tracking-wider text-gray-500 mt-0.5">Event bus</div>
+      </div>
+
+      <div class="bg-white p-5 flex flex-col items-center justify-center text-center hover:bg-primary-soft transition-colors cursor-pointer group">
+        <div class="w-10 h-10 mb-3 text-ink group-hover:text-primary transition-colors">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="3" y="3" width="7" height="7"/>
+            <rect x="14" y="3" width="7" height="7"/>
+            <rect x="14" y="14" width="7" height="7"/>
+            <rect x="3" y="14" width="7" height="7"/>
+          </svg>
+        </div>
+        <div class="text-[13px] font-semibold text-ink">Tailwind</div>
+        <div class="text-[10px] mono uppercase tracking-wider text-gray-500 mt-0.5">CSS</div>
+      </div>
+
+      <div class="bg-white p-5 flex flex-col items-center justify-center text-center hover:bg-primary-soft transition-colors cursor-pointer group">
+        <div class="w-10 h-10 mb-3 text-ink group-hover:text-primary transition-colors">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M12 3a9 9 0 0 0 0 18M12 3a9 9 0 0 1 0 18M3 12h18"/>
+          </svg>
+        </div>
+        <div class="text-[13px] font-semibold text-ink">GraphQL</div>
+        <div class="text-[10px] mono uppercase tracking-wider text-gray-500 mt-0.5">API</div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- ==================== PROJETS ==================== -->
+<section id="travaux" class="py-24 lg:py-32 bg-gray-50/50 border-y border-gray-200">
+  <div class="max-w-[1280px] mx-auto px-6 lg:px-8">
+
+    <div class="grid lg:grid-cols-12 gap-8 mb-16 reveal">
+      <div class="lg:col-span-7">
+        <div class="text-[12px] mono uppercase tracking-[0.15em] text-primary mb-4">Projets en production</div>
+        <h2 class="h-section">Trois projets en production,<br>trois secteurs différents.</h2>
+      </div>
+      <p class="lg:col-span-5 self-end text-[15px] text-gray-600 leading-relaxed">
+        Chaque mission part d'un problème opérationnel concret, pas d'un cahier des charges générique. Toutes ces plateformes sont en production — vous pouvez les tester directement.
+      </p>
+    </div>
+
+    <!-- Project 01 -->
+    <div class="proj-row reveal mb-5">
+
+      <div class="proj-content">
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <span class="text-[11px] mono uppercase tracking-[0.15em] text-gray-500">Hospitality</span>
+            <span class="text-gray-300">·</span>
+            <span class="text-[11px] mono uppercase tracking-[0.15em] text-primary flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full pulse-dot bg-primary"></span>
+              En production
+            </span>
+          </div>
+
+          <h3 class="text-[28px] lg:text-[32px] font-semibold text-ink leading-[1.15] mb-2">Plateforme de gestion d'hôtels</h3>
+          <p class="text-[14px] text-gray-500 mb-6">Client : Chaîne B Hôtel & Spa</p>
+
+          <div class="space-y-4 mb-8">
+            <div>
+              <div class="text-[11px] mono uppercase tracking-[0.15em] text-gray-500 mb-1">Besoin</div>
+              <p class="text-[14px] text-gray-700 leading-relaxed">L'hôtel gérait ses réservations par téléphone et sur papier, encaissait majoritairement en espèces et n'avait aucune visibilité fiable sur le taux d'occupation à venir.</p>
+            </div>
+            <div>
+              <div class="text-[11px] mono uppercase tracking-[0.15em] text-gray-500 mb-1">Solution</div>
+              <p class="text-[14px] text-gray-700 leading-relaxed">Plateforme de réservation publique avec paiement Mobile Money, couplée à un back-office complet pour l'équipe : gestion des chambres, fiche de police digitale, facturation automatique, règles d'annulation paramétrables.</p>
+            </div>
+            <div>
+              <div class="text-[11px] mono uppercase tracking-[0.15em] text-primary mb-1">Résultat</div>
+              <p class="text-[14px] text-gray-700 leading-relaxed">Réservations 24h/24 sans appel téléphonique, paiements encaissés à la confirmation, et un tableau de bord qui permet à la direction de piloter le taux de remplissage en temps réel.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-5 border-t border-gray-200">
+          <div class="flex flex-wrap gap-1.5 mb-4">
+            <span class="tech-badge">PHP</span>
+            <span class="tech-badge">FedaPay</span>
+            <span class="tech-badge">Mobile Money</span>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <a href="https://hotelschaineb.com/" target="_blank" rel="noopener" class="btn-live">
+              <span class="w-1.5 h-1.5 rounded-full bg-green-400 pulse-dot"></span>
+              <span>Site principal</span>
+              <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </a>
+            <a href="https://reservation.hotelschaineb.com/fr/login" target="_blank" rel="noopener" class="btn-live">
+              <span class="w-1.5 h-1.5 rounded-full bg-green-400 pulse-dot"></span>
+              <span>Espace réservation</span>
+              <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="proj-visual visual-hotel">
+        <div class="absolute inset-0 flex items-center justify-center p-8">
+          <div class="text-center">
+            <div class="inline-block px-10 py-12 border border-white/30 rounded-full backdrop-blur-sm">
+              <div class="text-white text-[100px] lg:text-[140px] leading-none italic font-serif">B</div>
+            </div>
+            <div class="mt-6 text-white tracking-[0.5em] text-[14px] font-serif">CHAÎNE B</div>
+            <div class="mt-2 text-white/50 mono text-[10px] tracking-[0.3em]">— HÔTEL & SPA —</div>
+          </div>
+        </div>
+        <div class="absolute top-5 left-5 mono text-[11px] uppercase tracking-[0.15em] text-white/60">Case 01 / Hospitality</div>
+        <div class="absolute bottom-5 left-5 right-5 grid grid-cols-3 gap-2">
+          <div class="border border-white/15 rounded-md p-2.5 backdrop-blur-md bg-white/[0.04]">
+            <div class="text-white/50 mono text-[9px] uppercase tracking-wider">Suite</div>
+            <div class="text-white text-[12px] mt-0.5">45 000 F</div>
+          </div>
+          <div class="border border-white/15 rounded-md p-2.5 backdrop-blur-md bg-white/[0.04]">
+            <div class="text-white/50 mono text-[9px] uppercase tracking-wider">Junior</div>
+            <div class="text-white text-[12px] mt-0.5">150 000 F</div>
+          </div>
+          <div class="border border-amber-400/40 rounded-md p-2.5 backdrop-blur-md" style="background: rgba(245,158,11,0.15);">
+            <div class="mono text-[9px] uppercase tracking-wider" style="color: #FBBF24;">Réservée</div>
+            <div class="text-white text-[12px] mt-0.5">−10%</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Project 02 -->
+    <div class="proj-row reverse reveal mb-5">
+
+      <div class="proj-visual visual-legal order-2 lg:order-1">
+        <div class="absolute inset-0 p-8 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[10px] mono uppercase tracking-wider text-white/50">Tableau de bord</span>
+              <span class="text-[10px] mono text-white/40">147 dossiers</span>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2 mb-3">
+              <div class="border border-white/15 rounded-md p-2.5 backdrop-blur-sm bg-white/[0.03]">
+                <div class="text-white/40 mono text-[9px] uppercase tracking-wider mb-1.5">#2847</div>
+                <div class="h-1 bg-white/20 rounded-full mb-1.5"></div>
+                <div class="h-1 bg-white/10 rounded-full w-2/3"></div>
+                <div class="mt-2 text-[9px] text-white/50 mono">EN COURS</div>
+              </div>
+              <div class="border rounded-md p-2.5 backdrop-blur-sm" style="background: rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.4);">
+                <div class="text-white mono text-[9px] uppercase tracking-wider mb-1.5">#2848</div>
+                <div class="h-1 rounded-full mb-1.5" style="background: #FBBF24;"></div>
+                <div class="h-1 bg-white/20 rounded-full w-3/4"></div>
+                <div class="mt-2 text-[9px] mono" style="color: #FBBF24;">URGENT</div>
+              </div>
+              <div class="border border-white/15 rounded-md p-2.5 backdrop-blur-sm bg-white/[0.03]">
+                <div class="text-white/40 mono text-[9px] uppercase tracking-wider mb-1.5">#2849</div>
+                <div class="h-1 bg-white/20 rounded-full mb-1.5"></div>
+                <div class="h-1 bg-white/10 rounded-full w-1/2"></div>
+                <div class="mt-2 text-[9px] text-white/50 mono">ARCHIVÉ</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-white text-[80px] lg:text-[100px] leading-none italic font-serif font-light self-start">Law<span style="color: #3B82F6;">Sync</span></div>
+
+          <div class="flex items-center justify-between text-white/60 mono text-[10px] uppercase tracking-wider">
+            <div class="flex items-center gap-2">
+              <span class="w-1.5 h-1.5 rounded-full pulse-dot" style="background: #4ADE80;"></span>
+              <span>Synchronisation live</span>
+            </div>
+            <span>v2.4.1</span>
+          </div>
+        </div>
+        <div class="absolute top-5 right-5 mono text-[11px] uppercase tracking-[0.15em] text-white/60">Case 02 / Legal</div>
+      </div>
+
+      <div class="proj-content order-1 lg:order-2">
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <span class="text-[11px] mono uppercase tracking-[0.15em] text-gray-500">Legal Tech</span>
+            <span class="text-gray-300">·</span>
+            <span class="text-[11px] mono uppercase tracking-[0.15em] text-primary flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full pulse-dot bg-primary"></span>
+              En production
+            </span>
+          </div>
+
+          <h3 class="text-[28px] lg:text-[32px] font-semibold text-ink leading-[1.15] mb-2">Plateforme de gestion de cabinet d'avocats</h3>
+          <p class="text-[14px] text-gray-500 mb-6">Produit : LawSync</p>
+
+          <div class="space-y-4 mb-8">
+            <div>
+              <div class="text-[11px] mono uppercase tracking-[0.15em] text-gray-500 mb-1">Besoin</div>
+              <p class="text-[14px] text-gray-700 leading-relaxed">Le cabinet conservait ses dossiers en classeurs physiques, suivait les échéances sur agenda papier et facturait à partir de notes manuscrites. Avec une croissance du nombre de dossiers, le risque d'oubli devenait réel.</p>
+            </div>
+            <div>
+              <div class="text-[11px] mono uppercase tracking-[0.15em] text-gray-500 mb-1">Solution</div>
+              <p class="text-[14px] text-gray-700 leading-relaxed">Système centralisé pour le cabinet : dossiers numérisés et indexés, agenda partagé avec rappels automatiques, modèles d'actes types, signature électronique, facturation automatique liée aux temps passés.</p>
+            </div>
+            <div>
+              <div class="text-[11px] mono uppercase tracking-[0.15em] text-primary mb-1">Résultat</div>
+              <p class="text-[14px] text-gray-700 leading-relaxed">Plus aucune échéance manquée depuis la mise en production. Le cabinet traite davantage de dossiers à effectif constant, et la facturation est désormais émise dans les jours qui suivent l'intervention plutôt qu'à la fin du mois.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-5 border-t border-gray-200">
+          <div class="flex flex-wrap gap-1.5 mb-4">
+            <span class="tech-badge">React</span>
+            <span class="tech-badge">Node.js</span>
+            <span class="tech-badge">PostgreSQL</span>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <a href="https://juris-flow-dev.histech.tg/" target="_blank" rel="noopener" class="btn-live">
+              <span class="w-1.5 h-1.5 rounded-full bg-green-400 pulse-dot"></span>
+              <span>Voir la plateforme</span>
+              <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Project 03 -->
+    <div class="proj-row reveal">
+
+      <div class="proj-content">
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <span class="text-[11px] mono uppercase tracking-[0.15em] text-gray-500">Telecom · FTTH</span>
+            <span class="text-gray-300">·</span>
+            <span class="text-[11px] mono uppercase tracking-[0.15em] text-primary flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full pulse-dot bg-primary"></span>
+              En production
+            </span>
+          </div>
+
+          <h3 class="text-[28px] lg:text-[32px] font-semibold text-ink leading-[1.15] mb-2">Plateforme de suivi des installations fibre optique</h3>
+          <p class="text-[14px] text-gray-500 mb-6">Produit : Fiber Konnect</p>
+
+          <div class="space-y-4 mb-8">
+            <div>
+              <div class="text-[11px] mono uppercase tracking-[0.15em] text-gray-500 mb-1">Besoin</div>
+              <p class="text-[14px] text-gray-700 leading-relaxed">L'opérateur gérait sa vente porte-à-porte, ses installations fibre et son SAV avec des fiches papier différentes pour chaque équipe. Aucune traçabilité, des installations qui prenaient plusieurs heures, et des activations qui pouvaient mettre des jours.</p>
+            </div>
+            <div>
+              <div class="text-[11px] mono uppercase tracking-[0.15em] text-gray-500 mb-1">Solution</div>
+              <p class="text-[14px] text-gray-700 leading-relaxed">Plateforme unifiée : application mobile pour les vendeurs avec test d'éligibilité GPS instantané, application terrain pour les techniciens avec procédures guidées, back-office de supervision pour la direction, et provisioning automatique des équipements via le serveur ACS.</p>
+            </div>
+            <div>
+              <div class="text-[11px] mono uppercase tracking-[0.15em] text-primary mb-1">Résultat</div>
+              <p class="text-[14px] text-gray-700 leading-relaxed">Le temps d'installation est passé de 3 heures à environ 45 minutes. Les nouveaux abonnés sont activés en moins de 48 heures. Plus de 85 % des dérangements sont résolus dès la première visite technique.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-5 border-t border-gray-200">
+          <div class="flex flex-wrap gap-1.5 mb-4">
+            <span class="tech-badge">Next.js</span>
+            <span class="tech-badge">Flutter</span>
+            <span class="tech-badge">Kubernetes</span>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <a href="https://fibr-konnect-web.histech.tg/" target="_blank" rel="noopener" class="btn-live">
+              <span class="w-1.5 h-1.5 rounded-full bg-green-400 pulse-dot"></span>
+              <span>Accéder à la plateforme</span>
+              <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="proj-visual visual-fiber">
+        <div class="absolute inset-0 flex items-center justify-center p-8">
+          <svg viewBox="0 0 600 400" class="w-[85%] h-[85%]" fill="none">
+            <defs>
+              <radialGradient id="fkGlow" cx="50%" cy="50%">
+                <stop offset="0%" stop-color="white" stop-opacity="0.4"/>
+                <stop offset="100%" stop-color="white" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <circle cx="300" cy="200" r="200" fill="url(#fkGlow)"/>
+            <circle cx="300" cy="200" r="60" stroke="white" stroke-opacity="0.5" stroke-width="1"/>
+            <circle cx="300" cy="200" r="100" stroke="white" stroke-opacity="0.3" stroke-width="1"/>
+            <circle cx="300" cy="200" r="140" stroke="white" stroke-opacity="0.2" stroke-width="1"/>
+            <circle cx="300" cy="200" r="180" stroke="white" stroke-opacity="0.15" stroke-width="1"/>
+            <circle cx="300" cy="200" r="8" fill="#3B82F6"/>
+            <circle cx="300" cy="200" r="14" fill="none" stroke="white" stroke-width="1" stroke-opacity="0.6"/>
+            <circle cx="240" cy="180" r="4" fill="white"/>
+            <circle cx="365" cy="220" r="4" fill="white"/>
+            <circle cx="270" cy="280" r="4" fill="white"/>
+            <circle cx="380" cy="140" r="4" fill="white"/>
+            <circle cx="200" cy="240" r="3" fill="white" opacity="0.7"/>
+            <circle cx="420" cy="280" r="3" fill="white" opacity="0.7"/>
+            <line x1="300" y1="200" x2="240" y2="180" stroke="white" stroke-opacity="0.5"/>
+            <line x1="300" y1="200" x2="365" y2="220" stroke="white" stroke-opacity="0.5"/>
+            <line x1="300" y1="200" x2="270" y2="280" stroke="white" stroke-opacity="0.5"/>
+            <line x1="300" y1="200" x2="380" y2="140" stroke="white" stroke-opacity="0.5"/>
+            <line x1="240" y1="180" x2="200" y2="240" stroke="white" stroke-opacity="0.3"/>
+            <line x1="365" y1="220" x2="420" y2="280" stroke="white" stroke-opacity="0.3"/>
+          </svg>
+        </div>
+        <div class="absolute top-5 left-5 mono text-[11px] uppercase tracking-[0.15em] text-white/60">Case 03 / FTTH</div>
+        <div class="absolute bottom-5 left-5 right-5">
+          <div class="text-white text-[36px] lg:text-[48px] font-semibold leading-[0.95]">Fiber Konnect</div>
+          <div class="text-white/60 text-[10px] mono mt-2 tracking-[0.15em] uppercase">VAD · Install · Dérangement · Déconnexion</div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- ==================== PROCESS ==================== -->
+<section id="approche" class="py-24 lg:py-32">
+  <div class="max-w-[1280px] mx-auto px-6 lg:px-8">
+
+    <div class="grid lg:grid-cols-12 gap-16">
+
+      <div class="lg:col-span-5 reveal">
+        <div class="text-[12px] mono uppercase tracking-[0.15em] text-primary mb-4">Méthodologie</div>
+        <h2 class="h-section mb-6">Notre méthode,<br>en quatre étapes.</h2>
+        <p class="text-[16px] text-gray-600 leading-relaxed mb-8">
+          Une méthode que nous avons éprouvée et affinée sur chaque projet. À chaque étape, un livrable concret que vous pouvez voir, tester, valider — pas seulement un compte rendu.
+        </p>
+        <a href="#contact" class="ulink text-[14px] text-primary font-medium">Discuter de votre projet →</a>
+      </div>
+
+      <div class="lg:col-span-7 reveal">
+
+        <div class="timeline-step">
+          <div class="timeline-num">01</div>
+          <div class="text-[11px] mono uppercase tracking-[0.15em] text-gray-500 mb-2">Semaines 1—2</div>
+          <h3 class="h-card mb-2">Comprendre votre métier</h3>
+          <p class="text-[14px] text-gray-600 leading-relaxed">Entretiens avec votre équipe, observation des processus actuels, identification des contraintes techniques et métier. Aucun code n'est écrit tant que nous n'avons pas une vision claire du problème à résoudre.</p>
+        </div>
+
+        <div class="timeline-step">
+          <div class="timeline-num">02</div>
+          <div class="text-[11px] mono uppercase tracking-[0.15em] text-gray-500 mb-2">Semaines 3—4</div>
+          <h3 class="h-card mb-2">Concevoir et architecturer</h3>
+          <p class="text-[14px] text-gray-600 leading-relaxed">Maquettes interactives, architecture technique, plan d'intégration avec vos systèmes existants. Vous validez chaque écran et chaque flux avant que le développement ne démarre.</p>
+        </div>
+
+        <div class="timeline-step">
+          <div class="timeline-num">03</div>
+          <div class="text-[11px] mono uppercase tracking-[0.15em] text-gray-500 mb-2">Semaines 5—6</div>
+          <h3 class="h-card mb-2">Développer et intégrer</h3>
+          <p class="text-[14px] text-gray-600 leading-relaxed">Sprints d'une semaine, démonstrations toutes les semaines, ajustements continus. Vos utilisateurs réels testent l'application avant la mise en production.</p>
+        </div>
+
+        <div class="timeline-step">
+          <div class="timeline-num">04</div>
+          <div class="text-[11px] mono uppercase tracking-[0.15em] text-gray-500 mb-2">Semaines 7—8</div>
+          <h3 class="h-card mb-2">Déployer et accompagner</h3>
+          <p class="text-[14px] text-gray-600 leading-relaxed">Mise en production, formation de vos équipes, documentation complète, support dédié les premières semaines. Et un point d'étape mensuel pendant six mois pour ajuster ce qui doit l'être.</p>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==================== POURQUOI NOUS ==================== -->
+<section class="py-24 lg:py-32 bg-gray-50/50 border-y border-gray-200">
+  <div class="max-w-[1280px] mx-auto px-6 lg:px-8">
+
+    <div class="text-center mb-16 reveal">
+      <div class="text-[12px] mono uppercase tracking-[0.15em] text-primary mb-4">Pourquoi nous</div>
+      <h2 class="h-section max-w-3xl mx-auto">Pourquoi nos clients<br>restent avec nous.</h2>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 reveal-stagger">
+
+      <div class="card text-center">
+        <div class="text-[40px] font-semibold text-primary leading-none mb-3">100<span class="text-gray-400 text-[24px]">%</span></div>
+        <h3 class="text-[16px] font-semibold text-ink mb-2">Une seule équipe, à Lomé</h3>
+        <p class="text-[13px] text-gray-600 leading-relaxed">Pas de sous-traitance offshore. Les personnes que vous rencontrez sont celles qui développent votre projet.</p>
+      </div>
+
+      <div class="card text-center">
+        <div class="text-[40px] font-semibold text-primary leading-none mb-3">&lt;8<span class="text-gray-400 text-[24px]">sem</span></div>
+        <h3 class="text-[16px] font-semibold text-ink mb-2">Mise en production rapide</h3>
+        <p class="text-[13px] text-gray-600 leading-relaxed">De six à huit semaines pour la plupart des projets. Méthode éprouvée, pas d'étape inutile.</p>
+      </div>
+
+      <div class="card text-center">
+        <div class="text-[40px] font-semibold text-primary leading-none mb-3">100<span class="text-gray-400 text-[24px]">%</span></div>
+        <h3 class="text-[16px] font-semibold text-ink mb-2">Vous restez propriétaire</h3>
+        <p class="text-[13px] text-gray-600 leading-relaxed">Le code source, l'infrastructure, la documentation : tout vous appartient. Aucune dépendance technique imposée.</p>
+      </div>
+
+      <div class="card text-center">
+        <div class="text-[40px] font-semibold text-primary leading-none mb-3">99.5<span class="text-gray-400 text-[24px]">%</span></div>
+        <h3 class="text-[16px] font-semibold text-ink mb-2">Pensé pour durer</h3>
+        <p class="text-[13px] text-gray-600 leading-relaxed">Sécurité dès la conception, supervision continue, sauvegardes automatiques, conformité aux standards en vigueur.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CONTACT ==================== -->
+<section id="contact" class="py-24 lg:py-32">
+  <div class="max-w-[1280px] mx-auto px-6 lg:px-8">
+
+    <div class="grid lg:grid-cols-12 gap-12">
+
+      <div class="lg:col-span-6 reveal">
+        <div class="text-[12px] mono uppercase tracking-[0.15em] text-primary mb-4">Contact</div>
+        <h2 class="h-section mb-6">Parlons de votre projet.</h2>
+        <p class="text-[17px] text-gray-700 leading-relaxed mb-12">
+          Présentez-nous votre besoin en quelques lignes. Vous recevez une première réponse qualifiée sous 24 heures ouvrées, sans engagement. Si votre projet entre dans notre périmètre, nous proposons un échange d'une heure pour approfondir.
+        </p>
+
+        <div class="grid sm:grid-cols-2 gap-x-8 gap-y-6 mb-10">
+          <div>
+            <div class="text-[11px] mono uppercase tracking-[0.15em] text-gray-500 mb-2">Email</div>
+            <a href="mailto:contact@taditc.com" class="text-[15px] text-ink ulink">contact@taditc.com</a>
+          </div>
+          <div>
+            <div class="text-[11px] mono uppercase tracking-[0.15em] text-gray-500 mb-2">Téléphone</div>
+            <a href="tel:+22822506547" class="text-[15px] text-ink ulink">+228 22 50 65 47</a>
+          </div>
+          <div>
+            <div class="text-[11px] mono uppercase tracking-[0.15em] text-gray-500 mb-2">Mobile</div>
+            <a href="tel:+22892270156" class="text-[15px] text-ink ulink">+228 92 27 01 56</a>
+          </div>
+          <div>
+            <div class="text-[11px] mono uppercase tracking-[0.15em] text-gray-500 mb-2">Disponibilité</div>
+            <span class="text-[15px] text-ink flex items-center gap-2">
+              <span class="w-1.5 h-1.5 rounded-full pulse-dot" style="background: var(--primary);"></span>
+              Disponible pour de nouveaux projets
+            </span>
+          </div>
+        </div>
+
+        <div class="border border-gray-200 rounded-xl overflow-hidden bg-white">
+          <div class="p-5 flex items-start justify-between gap-4 border-b border-gray-200">
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-lg bg-primary-soft flex items-center justify-center text-primary flex-shrink-0">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+              </div>
+              <div>
+                <div class="text-[11px] mono uppercase tracking-[0.15em] text-gray-500 mb-1">Adresse</div>
+                <div class="text-[15px] text-ink font-medium">Quartier Djidjolé · 05 BP 862</div>
+                <div class="text-[14px] text-gray-700">Lomé · Togo</div>
+                <div class="text-[12px] text-gray-500 mt-1">Afrique de l'Ouest · GMT+0</div>
+              </div>
+            </div>
+            <a href="https://maps.app.goo.gl/aUnxtVvHSejKZbwU9?g_st=iw" target="_blank" rel="noopener" class="text-[12px] mono uppercase tracking-[0.1em] text-gray-500 hover:text-primary transition-colors flex-shrink-0 flex items-center gap-1">
+              <span>Itinéraire</span>
+              <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </a>
+          </div>
+          <div class="map-container">
+            <iframe
+              width="100%"
+              height="280"
+              frameborder="0"
+              scrolling="no"
+              marginheight="0"
+              marginwidth="0"
+              src="https://www.openstreetmap.org/export/embed.html?bbox=1.18%2C6.155%2C1.24%2C6.195&amp;layer=mapnik&amp;marker=6.175%2C1.21"
+              style="border: none;"
+              loading="lazy"
+              title="Localisation TAD Dev — Djidjolé, Lomé, Togo">
+            </iframe>
+          </div>
+        </div>
+      </div>
+
+      <div class="lg:col-span-6 reveal">
+        <div class="card">
+          <h3 class="h-card mb-1">Demander un échange</h3>
+          <p class="text-[13px] text-gray-500 mb-6">Champs marqués d'un astérisque obligatoires. Réponse sous 24 heures ouvrées.</p>
+
+          <form class="space-y-4" onsubmit="handleSubmit(event)">
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div>
+                <label class="text-[12px] mono uppercase tracking-[0.1em] text-gray-500 block mb-1.5">Nom *</label>
+                <input type="text" required class="input-field" placeholder="Votre nom">
+              </div>
+              <div>
+                <label class="text-[12px] mono uppercase tracking-[0.1em] text-gray-500 block mb-1.5">Société</label>
+                <input type="text" class="input-field" placeholder="Nom de votre entreprise">
+              </div>
+            </div>
+
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div>
+                <label class="text-[12px] mono uppercase tracking-[0.1em] text-gray-500 block mb-1.5">Email *</label>
+                <input type="email" required class="input-field" placeholder="vous@société.com">
+              </div>
+              <div>
+                <label class="text-[12px] mono uppercase tracking-[0.1em] text-gray-500 block mb-1.5">Téléphone</label>
+                <input type="tel" class="input-field" placeholder="+228 ...">
+              </div>
+            </div>
+
+            <div>
+              <label class="text-[12px] mono uppercase tracking-[0.1em] text-gray-500 block mb-1.5">Taille de l'entreprise</label>
+              <select class="input-field" style="appearance: none; background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2210%22 height=%226%22 viewBox=%220 0 10 6%22 fill=%22none%22><path d=%22M1 1L5 5L9 1%22 stroke=%22%2364748B%22/></svg>'); background-repeat: no-repeat; background-position: right 14px center;">
+                <option value="">Choisir...</option>
+                <option>Startup (1—10 personnes)</option>
+                <option>Petite entreprise (10—50 personnes)</option>
+                <option>Moyenne entreprise (50—250 personnes)</option>
+                <option>Grande entreprise (250+ personnes)</option>
+                <option>Institution publique</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="text-[12px] mono uppercase tracking-[0.1em] text-gray-500 block mb-1.5">Type de projet *</label>
+              <select required class="input-field" style="appearance: none; background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2210%22 height=%226%22 viewBox=%220 0 10 6%22 fill=%22none%22><path d=%22M1 1L5 5L9 1%22 stroke=%22%2364748B%22/></svg>'); background-repeat: no-repeat; background-position: right 14px center;">
+                <option value="">Choisir...</option>
+                <option>Plateforme web / SaaS</option>
+                <option>Application mobile</option>
+                <option>Site & e-commerce</option>
+                <option>Infrastructure & DevOps</option>
+                <option>Intégration IA</option>
+                <option>Autre / À définir</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="text-[12px] mono uppercase tracking-[0.1em] text-gray-500 block mb-1.5">Décrivez votre projet *</label>
+              <textarea required rows="4" class="input-field resize-none" placeholder="Quel problème souhaitez-vous résoudre ? Quels sont vos objectifs ?"></textarea>
+            </div>
+
+            <button type="submit" class="btn-primary w-full justify-center mt-2">
+              <span>Envoyer la demande</span>
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 11L11 3M11 3H5M11 3V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </button>
+
+            <p class="text-[12px] text-gray-500 text-center pt-2">
+              <span class="inline-flex items-center gap-1.5">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"/></svg>
+                Réponse garantie sous 24h ouvrées
+              </span>
+            </p>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="border-t border-gray-200 bg-gray-50/50">
+  <div class="max-w-[1280px] mx-auto px-6 lg:px-8 py-16">
+
+    <div class="grid lg:grid-cols-12 gap-8 mb-12">
+
+      <div class="lg:col-span-5">
+        <div class="flex items-center gap-2.5 mb-5">
+          <div class="logo-mark">T</div>
+          <span class="text-[15px] font-semibold tracking-tight text-ink">TAD<span class="text-primary">.</span>Dev</span>
+        </div>
+        <p class="text-[14px] text-gray-600 leading-relaxed max-w-md mb-6">
+          Partenaire technologique basé à Lomé. Nous accompagnons les entreprises togolaises et ouest-africaines dans leur transformation digitale — du diagnostic à la production.
+        </p>
+        <div class="flex items-center gap-2.5 text-[12px] mono uppercase tracking-[0.15em] text-gray-500">
+          <span class="w-1.5 h-1.5 rounded-full pulse-dot" style="background: var(--primary);"></span>
+          <span>Disponible Q2 2026</span>
+        </div>
+      </div>
+
+      <div class="lg:col-span-2">
+        <div class="text-[11px] mono uppercase tracking-[0.15em] text-gray-500 mb-4">Navigation</div>
+        <ul class="space-y-2.5 text-[14px] text-gray-700">
+          <li><a href="#about" class="ulink">À propos</a></li>
+          <li><a href="#services" class="ulink">Services</a></li>
+          <li><a href="#travaux" class="ulink">Projets</a></li>
+          <li><a href="#approche" class="ulink">Process</a></li>
+        </ul>
+      </div>
+
+      <div class="lg:col-span-2">
+        <div class="text-[11px] mono uppercase tracking-[0.15em] text-gray-500 mb-4">Plateformes</div>
+        <ul class="space-y-2.5 text-[14px] text-gray-700">
+          <li><a href="https://fibr-konnect-web.histech.tg/" target="_blank" rel="noopener" class="ulink inline-flex items-center gap-1.5">Fiber Konnect <svg width="9" height="9" viewBox="0 0 12 12" fill="none"><path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a></li>
+          <li><a href="https://juris-flow-dev.histech.tg/" target="_blank" rel="noopener" class="ulink inline-flex items-center gap-1.5">LawSync <svg width="9" height="9" viewBox="0 0 12 12" fill="none"><path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a></li>
+          <li><a href="https://hotelschaineb.com/" target="_blank" rel="noopener" class="ulink inline-flex items-center gap-1.5">Chaîne B <svg width="9" height="9" viewBox="0 0 12 12" fill="none"><path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a></li>
+        </ul>
+      </div>
+
+      <div class="lg:col-span-3">
+        <div class="text-[11px] mono uppercase tracking-[0.15em] text-gray-500 mb-4">Contact</div>
+        <ul class="space-y-2.5 text-[14px] text-gray-700">
+          <li><a href="mailto:contact@taditc.com" class="ulink">contact@taditc.com</a></li>
+          <li><a href="tel:+22822506547" class="ulink">+228 22 50 65 47</a></li>
+          <li class="text-gray-500">Quartier Djidjolé · 05 BP 862</li>
+          <li class="text-gray-500">Lomé · Togo</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="pt-8 border-t border-gray-200 flex flex-col md:flex-row justify-between gap-4 text-[12px] text-gray-500">
+      <div>© 2026 TAD IT Consulting SARL — Tous droits réservés</div>
+      <div class="flex gap-6">
+        <a href="#" class="ulink">Mentions légales</a>
+        <a href="#" class="ulink">Confidentialité</a>
+        <a href="#" class="ulink">Conditions</a>
+      </div>
+      <div class="mono uppercase tracking-[0.1em]">Conçu à Lomé</div>
+    </div>
+
+  </div>
+</footer>
+
+<script>
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 40) navbar.classList.add('scrolled');
+    else navbar.classList.remove('scrolled');
+  });
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+  document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => io.observe(el));
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type="submit"]');
+    btn.innerHTML = '<span>Demande envoyée — merci !</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>';
+    btn.disabled = true;
+    setTimeout(() => {
+      e.target.reset();
+      btn.innerHTML = '<span>Envoyer la demande</span><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 11L11 3M11 3H5M11 3V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>';
+      btn.disabled = false;
+    }, 3500);
+  }
+
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', (e) => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        const offset = 80;
+        const targetPos = target.getBoundingClientRect().top + window.pageYOffset - offset;
+        window.scrollTo({ top: targetPos, behavior: 'smooth' });
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
